@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "WocForC# (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "WocForC# (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}
