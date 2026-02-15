@@ -1,3 +1,4 @@
+using WocForC_.Views;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -16,7 +17,7 @@ using Windows.Foundation.Collections;
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
 
-namespace WocForC_
+namespace WocForC_.Windows
 {
     /// <summary>
     /// An empty window that can be used on its own or navigated to within a Frame.
@@ -25,7 +26,18 @@ namespace WocForC_
     {
         public MainWindow()
         {
-            InitializeComponent();
+            this.InitializeComponent();
+            // Hide the default system title bar.
+            ExtendsContentIntoTitleBar = true;
+            // Replace system title bar with the WinUI TitleBar.
+            SetTitleBar(FilesManageTitleBar);
+        }
+        private void AppTitleBar_BackRequested(TitleBar sender, object args)
+        {
+            if (rootFrame.CanGoBack == true)
+            {
+                rootFrame.GoBack();
+            }
         }
     }
 }

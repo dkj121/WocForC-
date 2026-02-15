@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Page
+    x:Class="WocForC_.Views.FilesManager"
+    x:Name="FilesManagerPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:WocForC_.Views"
+    xmlns:models="using:WocForC_.Models"
+    xmlns:service="using:WocForC_.Service"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Page.Resources>
+        <!-- DataTemplate for folders -->
+        <DataTemplate x:Key="FolderTemplate" x:DataType="models:MyFilesTreeNode">
+            <TreeViewItem AutomationProperties.Name="{x:Bind _name}"
+                ItemsSource="{x:Bind _children}" IsExpanded="True">
+                <StackPanel Orientation="Horizontal">
+                    <Image Width="20" Source="../Assets/folder.png"/>
+                    <TextBlock Margin="0,0,10,0"/>
+                    <TextBlock Text="{x:Bind _name}" />
+                </StackPanel>
+            </TreeViewItem>
+        </DataTemplate>
+
+        <!-- DataTemplate for files -->
+        <DataTemplate x:Key="FileTemplate" x:DataType="models:MyFilesTreeNode">
+            <TreeViewItem AutomationProperties.Name="{x:Bind _name}">
+                <StackPanel Orientation="Horizontal">
+                    <FontIcon Glyph="&#xE8A5;" />
+                    <TextBlock Margin="0,0,10,0"/>
+                    <TextBlock Text="{x:Bind _name}"/>
+                </StackPanel>
+            </TreeViewItem>
+        </DataTemplate>
+
+        <!-- Template selector for ExplorerItem types -->
+        <models:FilesTemplateSelector x:Key="FilesTemplateSelector"
+            FolderTemplate="{StaticResource FolderTemplate}"
+            FileTemplate="{StaticResource FileTemplate}" />
+    </Page.Resources>
+
+    <Grid Background="Azure">
+        <!-- TreeView bound to DataSource, using the ItemTemplateSelector -->
+        <TreeView x:Name="FilesTreeView"
+                  Grid.Column="2"
+                  Margin="70,10,10,10"
+                  MinWidth="300"
+                  MaxWidth="500"
+                  HorizontalAlignment="Left"
+                  VerticalAlignment="Top"
+                  ItemsSource="{x:Bind service:FileDatas.TreeItems, Mode=OneWay}"
+                  ItemTemplateSelector="{StaticResource FilesTemplateSelector}" 
+                  ItemInvoked="FilesTreeView_ItemInvoked"
+                  DoubleTapped="FilesTreeView_DoubleTapped"
+                  IsDoubleTapEnabled="True">
+        </TreeView>
+        <!-- Button View -->
+        <Grid Grid.Column="0">
+            <AppBarButton Height="80"
+                          Width="70"
+                          Icon="Add" 
+                          Label="New manage"
+                          Click="NewManageButton_Click"/>
+            <AppBarButton Margin="0,80,0,0"
+                          Height="80"
+                          Width="70"
+                          Icon="Add" 
+                          Label="Auto manage"/>
+            <AppBarButton Margin="0,160,0,0"
+                          Height="80"
+                          Width="70"
+                          Icon="Refresh" 
+                          Label="Refresh"
+                          Click="Refrech_Click"/>
+        </Grid>
+        <!-- Proporty View -->
+        <Border Grid.Column="1"
+                Background="AliceBlue"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Bottom"
+                MinWidth="200"
+                MaxWidth="500"
+                Margin="0,10,0,10"
+                Padding="12"
+                CornerRadius="8"
+                BorderThickness="1"
+                BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}">
+            <StackPanel x:Name="PropertyPanel"
+                        DataContext="{Binding SelectedNode, ElementName=FilesManagerPage}">
+                <TextBlock Text="Properties"
+                           FontSize="16"
+                           FontWeight="SemiBold"
+                           Margin="0,0,0,12" />
+
+                <TextBlock Text="Name" Opacity="0.7" />
+                <TextBlock Text="{Binding _name}" Margin="0,0,0,10" />
+
+                <TextBlock Text="Path" Opacity="0.7" />
+                <TextBlock Text="{Binding _path}"
+                           TextWrapping="WrapWholeWords"
+                           Margin="0,0,0,10" />
+
+                <TextBlock Text="Type" Opacity="0.7" />
+                <TextBlock Text="{Binding _type}" Margin="0,0,0,10" />
+
+            </StackPanel>
+        </Border>
+    </Grid>
+</Page>
