@@ -17,7 +17,6 @@
     <Content Remove="Assets\folder.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Remove="Views\ChooseFolder.xaml" />
     <None Remove="Views\FilesManager.xaml" />
   </ItemGroup>
 
@@ -53,7 +52,7 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Page Update="Views\ChooseFolder.xaml">
+    <Page Update="Views\HistoryView.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>

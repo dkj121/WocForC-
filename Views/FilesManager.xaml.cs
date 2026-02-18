@@ -59,9 +59,36 @@ namespace WocForC_.Views
         {
             InitializeComponent();
         }
-        private void NewManageButton_Click(object sender, RoutedEventArgs e)
+        private async void NewManageButton_Click(object sender, RoutedEventArgs e)
         {
-            Frame.Navigate(typeof(ChooseFolder));
+            if (sender is Button button)
+            {
+                // disable the button to avoid double-clicking
+                button.IsEnabled = false;
+
+                var picker = new FolderPicker(button.XamlRoot.ContentIslandEnvironment.AppWindowId);
+
+                picker.CommitButtonText = "选取文件夹";
+                picker.SuggestedStartLocation = PickerLocationId.Desktop;
+                picker.ViewMode = PickerViewMode.List;
+
+                // Show the picker dialog window
+                var folder = await picker.PickSingleFolderAsync();
+                if (folder != null)
+                {
+                    FileDatas._choosedPath = folder.Path;
+                    // Update the history with the selected folder
+                    await Historys.AddHistory(folder.Path);
+                    // Update the myFilesTreeData with the selected folder
+                    await FileDatas.LoadFromPathAsync(folder.Path);
+                }
+                // re-enable the button
+                button.IsEnabled = true;
+            }
+        }
+        private void HistoryButton_Click(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(HistoryView));
         }
         private async void Refrech_Click(object sender, RoutedEventArgs e)
         {
@@ -69,12 +96,32 @@ namespace WocForC_.Views
             {
                 // disable the button to avoid double-clicking
                 button.IsEnabled = false;
-                if (FileDatas._choosedPath != null)
+                if (FileDatas._choosedPath != string.Empty)
                     await FileDatas.LoadFromPathAsync(FileDatas._choosedPath);
                 // re-enable the button
                 button.IsEnabled = true;
             }
-
+        }
+        private async void DeletePickedFolderButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is Button button)
+            {
+                // disable the button to avoid double-clicking
+                button.IsEnabled = false;
+                var picker = new FolderPicker(button.XamlRoot.ContentIslandEnvironment.AppWindowId);
+                picker.CommitButtonText = "选取文件夹";
+                picker.SuggestedStartLocation = PickerLocationId.DocumentsLibrary;
+                picker.ViewMode = PickerViewMode.List;
+                // Show the picker dialog window
+                var folder = await picker.PickSingleFolderAsync();
+                if (folder != null)
+                {
+                    // Update the myFilesTreeData by removing the selected folder
+                    await FileDatas.Clear(folder.Path);
+                }
+                // re-enable the button
+                button.IsEnabled = true;
+            }
         }
         private void FilesTreeView_ItemInvoked(TreeView sender, TreeViewItemInvokedEventArgs e)
         {
