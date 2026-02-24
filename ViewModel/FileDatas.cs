@@ -4,7 +4,7 @@ using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
-namespace WocForC_.Service
+namespace WocForC_.ViewModel
 {
     internal static class FileDatas
     {

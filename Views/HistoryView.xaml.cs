@@ -16,7 +16,7 @@ using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Storage;
-using WocForC_.Service;
+using WocForC_.ViewModel;
 using WocForC_.Models;
 
 // To learn more about WinUI, the WinUI project structure,

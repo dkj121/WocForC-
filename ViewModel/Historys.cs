@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Windows.Storage;
 
-namespace WocForC_.Service
+namespace WocForC_.ViewModel
 {
     internal static class Historys
     {

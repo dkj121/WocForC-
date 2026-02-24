@@ -21,7 +21,7 @@
         </Grid.RowDefinitions>
         <TitleBar
             x:Name="FilesManageTitleBar"
-            Title="FilesManage(PoweredByAI)"
+            Title="FilesManage"
             Background="Azure"
             Subtitle=""
             IsBackButtonVisible="True"
